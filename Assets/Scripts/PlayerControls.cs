@@ -3,14 +3,17 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    //Non-Basic
     private Rigidbody2D  _rigidbody2D;
     private InputActions _playerController;
     private BoxCollider2D  _boxCollider;
+    
+    //Basic
     private bool _grounded;
     private bool _alive;
-    [SerializeField]
-    private float jumpForce;
+    [SerializeField] private float jumpForce;
 
+    //Public Getter&Setters
     public bool Alive
     {
         get => _alive;

@@ -6,10 +6,12 @@ using Random = UnityEngine.Random;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject m_obstaclePrefab;
-    private Coroutine _obstacleSpawner;
+    //Basic
+    [SerializeField] private GameObject m_obstaclePrefab;
     private GameObject spawner;
+    
+    //Coroutines
+    private Coroutine _obstacleSpawner;
 
     private void Awake()
     {
@@ -22,6 +24,7 @@ public class ObstacleSpawner : MonoBehaviour
         _obstacleSpawner = StartCoroutine(SpawnObstacle());
     }
 
+    //Function to spawn obstacles and make them move.
     private void spawnObstacle(GameObject obstacle)
     {
         float speed = 0;
@@ -36,6 +39,7 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    //Coroutine to continuously spawn obstacles.
     private IEnumerator SpawnObstacle()
     {
         while (true)

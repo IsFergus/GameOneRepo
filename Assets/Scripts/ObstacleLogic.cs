@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ObstacleLogic : MonoBehaviour
 {
+    //Basic
+    [SerializeField] private float _movementSpeed;
     private Rigidbody2D _rb;
-    [SerializeField] 
-    private float _movementSpeed;
 
     public float MovementSpeed => _movementSpeed;
 

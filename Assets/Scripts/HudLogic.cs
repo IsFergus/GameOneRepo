@@ -4,11 +4,10 @@ using UnityEngine.UIElements;
 
 public class HudLogic : MonoBehaviour
 {
-    [SerializeField] 
-    private UIDocument _root;
+    //Non-Basic
+    [SerializeField] private UIDocument _root;
+    [SerializeField] private ScoreLogic scoreLogic;
     private Label _scoreLabel;
-    [SerializeField]
-    private ScoreLogic scoreLogic;
     
     private void Awake()
     {
