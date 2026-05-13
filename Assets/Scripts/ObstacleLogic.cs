@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class ObstacleLogic : MonoBehaviour
 {
-    //Basic
+    //Non-Basic
     [SerializeField] private float _movementSpeed;
+    
+    //Basic
     private Rigidbody2D _rb;
-
     public float MovementSpeed => _movementSpeed;
+
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class ObstacleLogic : MonoBehaviour
             if (other.gameObject.TryGetComponent(out PlayerControls player))
             {
                 player.Alive = false;
+                player.Death();
             }
             Destroy(other.gameObject);
             Time.timeScale = 0;

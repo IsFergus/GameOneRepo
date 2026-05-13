@@ -9,9 +9,9 @@ public class PlayerControls : MonoBehaviour
     private BoxCollider2D  _boxCollider;
     
     //Basic
+    [SerializeField] private float jumpForce;
     private bool _grounded;
     private bool _alive;
-    [SerializeField] private float jumpForce;
 
     //Public Getter&Setters
     public bool Alive
@@ -19,6 +19,9 @@ public class PlayerControls : MonoBehaviour
         get => _alive;
         set => _alive = value;
     }
+    
+    //Events
+    public event Action onDeath;
 
     private void Awake()
     {
@@ -39,12 +42,7 @@ public class PlayerControls : MonoBehaviour
 
         _grounded = true;
     }
-
-    private void Start()
-    {
-        _alive = true;
-    }
-
+    
     private void HandleUpOrDown(float value)
     {
         //If player input is not up or down, do nothing.
@@ -69,5 +67,10 @@ public class PlayerControls : MonoBehaviour
     private void OnCollisionExit2D(Collision2D obj)
     {
         _grounded = false;
+    }
+
+    public void Death()
+    {
+        onDeath?.Invoke();
     }
 }
