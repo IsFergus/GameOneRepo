@@ -35,7 +35,6 @@ public class ObstacleLogic : MonoBehaviour
             }
             Destroy(other.gameObject);
             Time.timeScale = 0;
-            Debug.Log("player died");
         }
     }
 }

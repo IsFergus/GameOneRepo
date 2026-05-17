@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UIElements;
@@ -15,6 +16,7 @@ public class ManagerLogic : MonoBehaviour
     private PlayerControls _playerControls;
     private GameObject _playerInstance;
     private Label _scoreLabel;
+    private Button _restartButton;
     
     //Basic
     private Coroutine _scoreCoroutine;
@@ -29,14 +31,28 @@ public class ManagerLogic : MonoBehaviour
         get { return _score; }
     }
 
+    private void OnEnable()
+    {
+        PlayerControls.onPlayerDied += loadMenu;
+        _restartButton.RegisterCallback<ClickEvent>(restartLevel);
+    }
+
+    private void OnDisable()
+    {
+        PlayerControls.onPlayerDied -= loadMenu;
+        _restartButton.UnregisterCallback<ClickEvent>(restartLevel);
+    }
+
+    private void Awake()
+    {
+        _restartButton = _endScreen.rootVisualElement.Q<Button>("restartButton");
+    }
+
     private void Start()
     {
-        if (!player.TryGetComponent(out _playerControls)) { }
+        if (player.TryGetComponent(out _playerControls)) { }
         SpawnPlayer();
         ScoreSetup();
-        
-        _playerControls.onDeath += OpenEndScreen;
-
         _endScreen.gameObject.SetActive(false);
     }
 
@@ -70,11 +86,17 @@ public class ManagerLogic : MonoBehaviour
         _scoreCoroutine = StartCoroutine(StartScore());
     }
 
-    private void OpenEndScreen()
+    private void loadMenu()
     {
-        Debug.Log("player opened");
         _endScreen.gameObject.SetActive(true);
     }
+
+    private void restartLevel(ClickEvent e)
+    {
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("restart");
+    }
+    
     
     //Starts a timer to tick the score up.
     private IEnumerator StartScore()

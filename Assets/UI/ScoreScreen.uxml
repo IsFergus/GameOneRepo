@@ -7,7 +7,7 @@
                 <ui:Label text="Score This Round" name="CurrentScore" style="align-self: center; font-size: 65px; -unity-font-definition: url(&quot;project://database/Assets/UI/Fonts/Richocet%20Bold.ttf?fileID=12800000&amp;guid=e686d0aff31becd43a1d7b89b7f45b71&amp;type=3#Richocet Bold&quot;); top: 150px; -unity-text-outline-width: 2px; -unity-text-outline-color: rgb(255, 255, 255);" />
             </ui:VisualElement>
             <ui:VisualElement name="ButtonContainer" style="flex-grow: 1;">
-                <ui:Button text="Restart" name="RestartGame" class="Button" style="top: 25%; width: 600px; align-self: center; -unity-text-outline-color: rgb(255, 255, 255); -unity-text-outline-width: 2px;" />
+                <ui:Button text="Restart" name="restartButton" class="Button" style="top: 25%; width: 600px; align-self: center; -unity-text-outline-color: rgb(255, 255, 255); -unity-text-outline-width: 2px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

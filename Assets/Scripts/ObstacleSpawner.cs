@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -7,15 +8,17 @@ using Random = UnityEngine.Random;
 public class ObstacleSpawner : MonoBehaviour
 {
     //Basic
+    [SerializeField] private List<GameObject> m_spawners;
     [SerializeField] private GameObject m_obstaclePrefab;
     private GameObject spawner;
+    private int multi;
     
     //Coroutines
     private Coroutine _obstacleSpawner;
 
     private void Awake()
     {
-        spawner =gameObject;
+        spawner = m_spawners[Random.Range(0, m_spawners.Count)];
     }
 
     private void Start()
@@ -28,6 +31,7 @@ public class ObstacleSpawner : MonoBehaviour
     private void spawnObstacle(GameObject obstacle)
     {
         float speed = 0;
+        spawner = m_spawners[Random.Range(0, m_spawners.Count)];
         GameObject newObstacle = Instantiate(obstacle, spawner.transform.position, obstacle.transform.rotation);
         if (newObstacle.TryGetComponent(out ObstacleLogic OL))
         {
@@ -45,6 +49,15 @@ public class ObstacleSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(2, 5));
+            if (multi == 5)
+            {
+                Time.timeScale += .15f;
+                multi = 0;
+            }
+            else
+            {
+                multi++;
+            }
             spawnObstacle(m_obstaclePrefab);
         }
     }

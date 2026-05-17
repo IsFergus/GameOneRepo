@@ -12,6 +12,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpForce;
     private bool _grounded;
     private bool _alive;
+    private Vector3 halfSize;
+    private Vector3 defSize;
 
     //Public Getter&Setters
     public bool Alive
@@ -20,9 +22,9 @@ public class PlayerControls : MonoBehaviour
         set => _alive = value;
     }
     
-    //Events
-    public event Action onDeath;
-
+    public delegate void DeathDelegate();
+    public static event DeathDelegate onPlayerDied;
+    
     private void Awake()
     {
         if (TryGetComponent(out _playerController))
@@ -39,7 +41,8 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.LogWarning("No box collider found on " + name);
         }
-
+        defSize =  _boxCollider.size;
+        halfSize = new Vector2(_boxCollider.size.x, _boxCollider.size.y * .5f);
         _grounded = true;
     }
     
@@ -47,7 +50,8 @@ public class PlayerControls : MonoBehaviour
     {
         //If player input is not up or down, do nothing.
         if (value == 0)
-            return;
+            _boxCollider.size =  defSize;
+        
         //If input is up, pulse upwards.
         if (value == 1 && _grounded)
         {
@@ -55,7 +59,10 @@ public class PlayerControls : MonoBehaviour
         }
         
         //If input is down, print crouch.
-        else if (value == -1 && _grounded) { }
+        else if (value == -1 && _grounded)
+        {
+            _boxCollider.size = halfSize;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D obj)
@@ -71,6 +78,7 @@ public class PlayerControls : MonoBehaviour
 
     public void Death()
     {
-        onDeath?.Invoke();
+        onPlayerDied?.Invoke();
     }
+    
 }
