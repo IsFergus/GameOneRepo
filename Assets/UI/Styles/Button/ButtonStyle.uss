@@ -1,2 +1,27 @@
 :root {
 }
+
+.Button {
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    font-size: 50px;
+    background-color: rgb(93, 135, 102);
+}
+
+.Button:hover {
+    background-color: rgb(67, 96, 73);
+}
+
+.Button:active {
+    background-color: rgb(48, 72, 53);
+}

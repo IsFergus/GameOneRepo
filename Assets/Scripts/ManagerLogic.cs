@@ -11,7 +11,7 @@ public class ManagerLogic : MonoBehaviour
 {
     //Non-Basic
     [SerializeField] private UIDocument _hudRoot;
-    [SerializeField] private UIDocument _endScreen;
+    [SerializeField] private GameObject _endScreen;
     [SerializeField] private GameObject player;
     private PlayerControls _playerControls;
     private GameObject _playerInstance;
@@ -33,27 +33,23 @@ public class ManagerLogic : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerControls.onPlayerDied += loadMenu;
-        _restartButton.RegisterCallback<ClickEvent>(restartLevel);
+        Debug.Log("registered callback");
+        PlayerControls.onPlayerDied += toggleMenu;
     }
 
     private void OnDisable()
     {
-        PlayerControls.onPlayerDied -= loadMenu;
-        _restartButton.UnregisterCallback<ClickEvent>(restartLevel);
+        Debug.Log("unregistered callback");
+        PlayerControls.onPlayerDied -= toggleMenu;
     }
-
-    private void Awake()
-    {
-        _restartButton = _endScreen.rootVisualElement.Q<Button>("restartButton");
-    }
-
+    
     private void Start()
     {
         if (player.TryGetComponent(out _playerControls)) { }
         SpawnPlayer();
         ScoreSetup();
-        _endScreen.gameObject.SetActive(false);
+        toggleMenu();
+        Time.timeScale = 1;
     }
 
     private void SpawnPlayer()
@@ -86,15 +82,22 @@ public class ManagerLogic : MonoBehaviour
         _scoreCoroutine = StartCoroutine(StartScore());
     }
 
-    private void loadMenu()
+    private void toggleMenu()
     {
-        _endScreen.gameObject.SetActive(true);
+        if (_endScreen.activeSelf)
+        {
+            _endScreen.SetActive(false);
+        }
+        else
+        {
+            _endScreen.SetActive(true);
+        }
     }
 
     private void restartLevel(ClickEvent e)
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Debug.Log("restart");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Debug.Log("restart");
     }
     
     
