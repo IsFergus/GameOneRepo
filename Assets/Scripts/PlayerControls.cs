@@ -12,8 +12,10 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpForce;
     private bool _grounded;
     private bool _alive;
-    private Vector3 halfSize;
-    private Vector3 defSize;
+    private Vector3 _halfSize;
+    private Vector3 _defSize;
+    private float _controlValue;
+    private bool _crouched;
 
     //Public Getter&Setters
     public bool Alive
@@ -41,34 +43,52 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.LogWarning("No box collider found on " + name);
         }
-        defSize =  _boxCollider.size;
-        halfSize = new Vector2(_boxCollider.size.x, _boxCollider.size.y * .5f);
+        _defSize =  _boxCollider.size;
+        _halfSize = new Vector2(_boxCollider.size.x, _boxCollider.size.y * .5f);
         _grounded = true;
     }
     
     private void HandleUpOrDown(float value)
     {
-        //If player input is not up or down, do nothing.
-        if (value == 0)
-            _boxCollider.size =  defSize;
+        _controlValue = value;
         
         //If input is up, pulse upwards.
-        if (value == 1 && _grounded)
+        if (_controlValue == 1 && _grounded && !_crouched)
         {
             _rigidbody2D.AddForceY(jumpForce, ForceMode2D.Impulse);
+            Debug.Log("1");
+
+        }
+        
+        //If player input is not up or down, do nothing.
+        if (_controlValue == 0)
+        {
+            _boxCollider.size =  _defSize;
+            _crouched = false;
+            Debug.Log("0");
         }
         
         //If input is down, print crouch.
-        else if (value == -1 && _grounded)
+        else if (_controlValue == -1 && _grounded)
         {
-            _boxCollider.size = halfSize;
+            _boxCollider.size = _halfSize;
+            _crouched = true;
+            Debug.Log("-1");
+
         }
     }
 
     private void OnCollisionEnter2D(Collision2D obj)
     {
         if (obj.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
             _grounded = true;
+            if (_controlValue == -1)
+            {
+                _boxCollider.size = _halfSize;
+                _crouched = true;
+            }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D obj)
