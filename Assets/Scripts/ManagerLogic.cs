@@ -10,19 +10,21 @@ using UnityEngine.UIElements;
 public class ManagerLogic : MonoBehaviour
 {
     //Non-Basic
-    [SerializeField] private UIDocument _hudRoot;
     [SerializeField] private GameObject _endScreen;
     [SerializeField] private GameObject player;
     private PlayerControls _playerControls;
     private GameObject _playerInstance;
+    
+    //Basic
+    private int _score;
+    
+    //UI
+    [SerializeField] private UIDocument _hudRoot;
     private Label _scoreLabel;
     private Button _restartButton;
     
-    //Basic
-    private Coroutine _scoreCoroutine;
-    
     //Coroutines
-    private int _score;
+    private Coroutine _scoreCoroutine;
 
     //Properties
     [CreateProperty]
@@ -50,6 +52,8 @@ public class ManagerLogic : MonoBehaviour
         ScoreSetup();
         toggleMenu();
         Time.timeScale = 1;
+        
+        Debug.Log(PlayerPrefs.GetFloat("CurrentHighScore"));
     }
 
     private void SpawnPlayer()
